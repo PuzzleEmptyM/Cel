@@ -1,6 +1,13 @@
 export type Easing = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out'
 
-export type ShapeType = 'rect' | 'circle' | 'star' | 'triangle'
+export type ShapeType = 'rect' | 'circle' | 'star' | 'triangle' | 'drawing'
+
+export type Stroke = {
+  id: string
+  color: number
+  width: number
+  points: { x: number; y: number }[]
+}
 
 export type Keyframe = {
   frame: number
@@ -11,6 +18,7 @@ export type Keyframe = {
   rotation: number
   alpha: number
   easing: Easing
+  strokes: Stroke[]   // drawing cels live here; empty for shape layers
 }
 
 export type Layer = {
@@ -20,7 +28,7 @@ export type Layer = {
   locked: boolean
   mediaId: string | null
   shape: ShapeType
-  color: number  // hex int e.g. 0x6366f1
+  color: number
   keyframes: Keyframe[]
 }
 

@@ -1,4 +1,4 @@
-import type { Keyframe, Easing } from '../types'
+import type { Keyframe, Easing, Stroke } from '../types'
 
 function ease(t: number, easing: Easing): number {
   switch (easing) {
@@ -20,6 +20,14 @@ export type ObjectState = {
   scaleY: number
   rotation: number
   alpha: number
+}
+
+// Returns the strokes from the keyframe at-or-before the given frame (hold interpolation).
+export function getActiveStrokes(keyframes: Keyframe[], frame: number): Stroke[] {
+  if (keyframes.length === 0) return []
+  const sorted = [...keyframes].sort((a, b) => a.frame - b.frame)
+  const cel = [...sorted].reverse().find((kf) => kf.frame <= frame)
+  return cel?.strokes ?? sorted[0].strokes
 }
 
 export function interpolateLayer(keyframes: Keyframe[], frame: number): ObjectState | null {

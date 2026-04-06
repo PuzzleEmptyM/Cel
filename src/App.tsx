@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useStore } from './store/use-store'
+import { useHotkeys } from './lib/use-hotkeys'
 import { Toolbar } from './components/toolbar'
 import { CanvasView } from './components/canvas-view'
 import { LayersPanel } from './components/layers-panel'
@@ -8,10 +9,18 @@ import { Timeline } from './components/timeline'
 
 export default function App() {
   const initProject = useStore((s) => s.initProject)
+  const undo = useStore((s) => s.undo)
+  const redo = useStore((s) => s.redo)
 
   useEffect(() => {
     initProject()
   }, [initProject])
+
+  useHotkeys({
+    'ctrl+z': undo,
+    'ctrl+shift+z': redo,
+    'ctrl+y': redo,
+  })
 
   return (
     <div
